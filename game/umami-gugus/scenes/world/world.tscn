@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://ct3m873xv62p5"]
+
+[ext_resource type="PackedScene" uid="uid://c555pn5b25co5" path="res://scenes/scenario/scenario.tscn" id="1_1ei80"]
+[ext_resource type="PackedScene" uid="uid://cd6ga6lpwkq3k" path="res://scenes/player/player.tscn" id="2_qa26m"]
+[ext_resource type="Script" path="res://scripts/player/02-with-accelleration.gd" id="3_8qufs"]
+
+[sub_resource type="Sky" id="Sky_1qb4s"]
+
+[sub_resource type="Environment" id="Environment_uf7w0"]
+background_mode = 1
+background_color = Color(0.564962, 0.564962, 0.564962, 1)
+sky = SubResource("Sky_1qb4s")
+sky_custom_fov = 32.1
+
+[node name="World" type="Node3D"]
+
+[node name="Scenario" parent="." instance=ExtResource("1_1ei80")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+
+[node name="Player" parent="." instance=ExtResource("2_qa26m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.07804, 0)
+script = ExtResource("3_8qufs")
+acceleration = 5
+deceleration = 4
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.79653, 0.604599, 0, -0.604599, 0.79653, 0, 4.23, 7.525)
+environment = SubResource("Environment_uf7w0")
+doppler_tracking = 2
+projection = 1
+size = 13.381
+near = 0.006
