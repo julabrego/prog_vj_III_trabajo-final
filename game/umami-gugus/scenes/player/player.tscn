@@ -1,17 +1,62 @@
-[gd_scene load_steps=5 format=3 uid="uid://cd6ga6lpwkq3k"]
+[gd_scene load_steps=6 format=3 uid="uid://cd6ga6lpwkq3k"]
 
-[ext_resource type="Script" path="res://scripts/player/01-basic.gd" id="1_71yn5"]
+[sub_resource type="GDScript" id="GDScript_pjgcn"]
+script/source = "extends CharacterBody3D
+
+# How fast the player moves in meters per second.
+@export var speed = 14
+# The downward acceleration when in the air, in meters per second squared.
+@export var fall_acceleration = 75
+
+# This auxiliar variable will progressivelly calculate the CharacterBody3D 
+# velocity
+var target_velocity = Vector3.ZERO
+
+func _physics_process(delta):
+	var direction = Vector3.ZERO
+
+	# If some direction input is pressed, its corresponding direction axis 
+	# will be 1 or -1
+	if Input.is_action_pressed(\"move_right\"):
+		direction.x += 1
+	if Input.is_action_pressed(\"move_left\"):
+		direction.x -= 1
+	if Input.is_action_pressed(\"move_backwards\"):
+		direction.z += 1
+	if Input.is_action_pressed(\"move_forward\"):
+		direction.z -= 1
+	# The speed has to be normalized so if the player moves in two directions
+	# at the same time, the speed wont be faster than desired
+	if direction != Vector3.ZERO:
+		direction = direction.normalized()
+
+	# Ground Velocity
+	target_velocity.x = direction.x * speed
+	target_velocity.z = direction.z * speed
+
+	# Vertical Velocity
+	if not is_on_floor(): # If in the air, fall towards the floor. Literally gravity
+		target_velocity.y = target_velocity.y - (fall_acceleration * delta)
+
+	# Moving the Character
+	velocity = target_velocity
+	move_and_slide()
+"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xmt6l"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nbojw"]
-albedo_color = Color(0.219608, 0.490196, 0.478431, 1)
+albedo_color = Color(0.76, 0.502233, 0.342, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_l43cy"]
 material = SubResource("StandardMaterial3D_nbojw")
 
-[node name="Body" type="CharacterBody3D"]
-script = ExtResource("1_71yn5")
+[sub_resource type="SphereMesh" id="SphereMesh_4f8ke"]
+radius = 0.15
+height = 0.15
+
+[node name="Body" type="CharacterBody3D" groups=["Player"]]
+script = SubResource("GDScript_pjgcn")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_xmt6l")
@@ -20,3 +65,11 @@ shape = SubResource("CapsuleShape3D_xmt6l")
 mesh = SubResource("CapsuleMesh_l43cy")
 
 [node name="Player" type="Node3D" parent="."]
+
+[node name="Ojo1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.25297, 0.298504, 0.48313)
+mesh = SubResource("SphereMesh_4f8ke")
+
+[node name="Ojo2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.221585, 0.298504, 0.48313)
+mesh = SubResource("SphereMesh_4f8ke")

@@ -61,7 +61,3 @@ shape = SubResource("BoxShape3D_6184q")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Wall4"]
 mesh = SubResource("BoxMesh_rfrrw")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-shadow_enabled = true
-sky_mode = 1

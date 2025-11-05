@@ -3,7 +3,10 @@ extends CharacterBody3D
 # How fast the player moves in meters per second.
 @export var speed = 14
 # The downward acceleration when in the air, in meters per second squared.
+
 @export var fall_acceleration = 75
+# The initial jump velocity (tweak as needed for jump height)
+@export var jump_velocity = 22
 
 @export var acceleration = 5
 @export var deceleration = 4
@@ -23,7 +26,7 @@ func _physics_process(delta):
 		direction.z += 1
 	if Input.is_action_pressed("move_forward"):
 		direction.z -= 1
-
+	
 	# The speed has to be normalized so if the player moves in two directions
 	# at the same time, the speed wont be faster than desired
 	if direction != Vector3.ZERO:
@@ -35,7 +38,7 @@ func _physics_process(delta):
 
 	# Calculate the target's speed
 	var target = direction * speed
-	
+
 	# The dot product (direction.dot(hvel)) checks if the object is already 
 	# moving in the same direction as the input.
 	
@@ -54,10 +57,26 @@ func _physics_process(delta):
 	target_velocity.x = horizontal_velocity.x
 	target_velocity.z = horizontal_velocity.z
 
-	# Vertical Velocity
-	if not is_on_floor(): # If in the air, fall towards the floor. Literally gravity
+	# Jumping
+	if is_on_floor():
+		if Input.is_action_just_pressed("action_confirm"):
+			target_velocity.y = jump_velocity
+	else:
+		# If in the air, fall towards the floor. Literally gravity
 		target_velocity.y = target_velocity.y - (fall_acceleration * delta)
 
 	# Moving the Character
 	velocity = target_velocity
+
+	# Get the horizontal velocity (ignore vertical movement for rotation)
+	var horizontal_movement = Vector3(velocity.x, 0, velocity.z)
+	
+	# Only rotate if we're actually moving horizontally
+	if horizontal_movement.length_squared() > 0.1:
+		# Rotate the player to face the direction of movement
+		var facing_direction = -horizontal_movement.normalized()  # Negative because we want to face the direction we're moving
+		# Calculate the target position far enough away to avoid precision issues
+		var target_pos = transform.origin + facing_direction * 100
+		look_at(target_pos, Vector3.UP)
+		
 	move_and_slide()

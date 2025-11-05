@@ -1,8 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://ct3m873xv62p5"]
+[gd_scene load_steps=11 format=3 uid="uid://ct3m873xv62p5"]
 
 [ext_resource type="PackedScene" uid="uid://c555pn5b25co5" path="res://scenes/scenario/scenario.tscn" id="1_1ei80"]
 [ext_resource type="PackedScene" uid="uid://cd6ga6lpwkq3k" path="res://scenes/player/player.tscn" id="2_qa26m"]
-[ext_resource type="Script" path="res://scripts/player/02-with-accelleration.gd" id="3_8qufs"]
+[ext_resource type="Script" path="res://scripts/player/eight-directions-movement.gd" id="3_8qufs"]
+[ext_resource type="Script" path="res://scripts/gameplay/grabable_item.gd" id="4_cf7gg"]
+[ext_resource type="Script" path="res://scripts/camera/gameplay_camera.gd" id="4_v6btp"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vrbph"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_b8kx4"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_wmacl"]
+radius = 1.0
 
 [sub_resource type="Sky" id="Sky_1qb4s"]
 
@@ -18,15 +27,38 @@ sky_custom_fov = 32.1
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
 
 [node name="Player" parent="." instance=ExtResource("2_qa26m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.07804, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.74635, 0)
 script = ExtResource("3_8qufs")
+jump_velocity = 22
 acceleration = 5
 deceleration = 4
 
-[node name="Camera3D" type="Camera3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 0.79653, 0.604599, 0, -0.604599, 0.79653, 0, 4.23, 7.525)
+[node name="GrabbingItem" type="Node3D" parent="Player"]
+
+[node name="GrabbableItem" type="RigidBody3D" parent="." groups=["GrabbableItem"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0586, 1.25813, 0)
+script = ExtResource("4_cf7gg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabbableItem"]
+shape = SubResource("SphereShape3D_vrbph")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GrabbableItem"]
+mesh = SubResource("SphereMesh_b8kx4")
+
+[node name="Area3D" type="Area3D" parent="GrabbableItem"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabbableItem/Area3D"]
+shape = SubResource("SphereShape3D_wmacl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.707107, 0.5, 0.5, 0, -0.707107, 0.707107, 0.707107, 0.5, 0.5, 0, 8.70614, -7)
+shadow_enabled = true
+shadow_opacity = 0.8
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.79653, 0.604599, 0, -0.604599, 0.79653, 0, 11.0021, 12.6586)
 environment = SubResource("Environment_uf7w0")
-doppler_tracking = 2
 projection = 1
-size = 13.381
-near = 0.006
+size = 14.333
+script = ExtResource("4_v6btp")
+target_path = NodePath("../Player")
