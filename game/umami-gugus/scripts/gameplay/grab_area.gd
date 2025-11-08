@@ -12,6 +12,7 @@ const TRANSPARENT_MATERIAL = preload(DomainTypes.DEBUG_MATERIALS.TRANSPARENT)
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		$MeshInstance3D.material_override = YELLOW_SEMITRANSPARENT_MATERIAL
+		$MeshInstance3D.visible = true
 		
 	else:
 		$MeshInstance3D.queue_free()
