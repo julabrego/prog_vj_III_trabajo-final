@@ -1,8 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://ct3m873xv62p5"]
+[gd_scene load_steps=10 format=3 uid="uid://ct3m873xv62p5"]
 
 [ext_resource type="PackedScene" uid="uid://c555pn5b25co5" path="res://scenes/scenario/scenario.tscn" id="1_1ei80"]
 [ext_resource type="PackedScene" uid="uid://cd6ga6lpwkq3k" path="res://scenes/player/player.tscn" id="2_qa26m"]
-[ext_resource type="Script" path="res://scripts/player/eight-directions-movement.gd" id="3_8qufs"]
 [ext_resource type="Script" path="res://scripts/gameplay/grabable_item.gd" id="4_cf7gg"]
 [ext_resource type="Script" path="res://scripts/camera/gameplay_camera.gd" id="4_v6btp"]
 
@@ -27,11 +26,7 @@ sky_custom_fov = 32.1
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
 
 [node name="Player" parent="." instance=ExtResource("2_qa26m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.74635, 0)
-script = ExtResource("3_8qufs")
-jump_velocity = 22
-acceleration = 5
-deceleration = 4
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25017, 0)
 
 [node name="GrabbingItem" type="Node3D" parent="Player"]
 
