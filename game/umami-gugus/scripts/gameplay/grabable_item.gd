@@ -1,3 +1,4 @@
+class_name GrabbableItem
 extends CollisionObject3D
 
 var grabber: CollisionObject3D

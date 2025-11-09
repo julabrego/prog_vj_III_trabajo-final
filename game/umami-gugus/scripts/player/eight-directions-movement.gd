@@ -59,7 +59,7 @@ func _physics_process(delta):
 
 	# Jumping
 	if is_on_floor():
-		if Input.is_action_just_pressed("ui_accept"):
+		if Input.is_action_just_pressed("action_jump"):
 			target_velocity.y = jump_velocity
 	else:
 		# If in the air, fall towards the floor. Literally gravity
