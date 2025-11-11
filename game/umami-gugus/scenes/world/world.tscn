@@ -1,16 +1,24 @@
-[gd_scene load_steps=8 format=3 uid="uid://ct3m873xv62p5"]
+[gd_scene load_steps=13 format=3 uid="uid://ct3m873xv62p5"]
 
 [ext_resource type="PackedScene" uid="uid://c555pn5b25co5" path="res://scenes/scenario/scenario.tscn" id="1_1ei80"]
 [ext_resource type="PackedScene" uid="uid://cd6ga6lpwkq3k" path="res://scenes/player/player.tscn" id="2_qa26m"]
+[ext_resource type="Script" path="res://scripts/gameplay/grabable_item.gd" id="3_ougdl"]
 [ext_resource type="Script" path="res://scripts/camera/gameplay_camera.gd" id="4_v6btp"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_av6vs"]
 height = 0.5
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sm811"]
-margin = 0.0
-radius = 0.294192
-height = 0.588383
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_r6ajy"]
+height = 0.25
+
+[sub_resource type="BoxMesh" id="BoxMesh_xfho3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hsidk"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_0k1ax"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_dvq5u"]
+points = PackedVector3Array(0, 0.5, 0.5, 0.5, -0.5, 0.5, 0, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
 
 [sub_resource type="Sky" id="Sky_1qb4s"]
 
@@ -26,20 +34,45 @@ sky_custom_fov = 32.1
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
 
 [node name="Player" parent="." instance=ExtResource("2_qa26m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25017, 0)
-
-[node name="GrabbingItem" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.25017, 0)
+collision_mask = 1
 
 [node name="GrabbableItem" type="RigidBody3D" parent="." groups=["GrabbableItem"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0586, 1.25813, 0)
 collision_layer = 2
 collision_mask = 3
+lock_rotation = true
+script = ExtResource("3_ougdl")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="GrabbableItem"]
 mesh = SubResource("SphereMesh_av6vs")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GrabbableItem"]
-shape = SubResource("CapsuleShape3D_sm811")
+shape = SubResource("CylinderShape3D_r6ajy")
+
+[node name="GrabbableItem2" type="RigidBody3D" parent="." groups=["GrabbableItem"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.0586, 2.25813, -2)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("3_ougdl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GrabbableItem2"]
+mesh = SubResource("BoxMesh_xfho3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabbableItem2"]
+shape = SubResource("BoxShape3D_hsidk")
+
+[node name="GrabbableItem3" type="RigidBody3D" parent="." groups=["GrabbableItem"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0586, 2.25813, -5)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("3_ougdl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GrabbableItem3"]
+mesh = SubResource("PrismMesh_0k1ax")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabbableItem3"]
+shape = SubResource("ConvexPolygonShape3D_dvq5u")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.707107, 0.5, 0.5, 0, -0.707107, 0.707107, 0.707107, 0.5, 0.5, 0, 8.70614, -7)
@@ -47,7 +80,7 @@ shadow_enabled = true
 shadow_opacity = 0.8
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.79653, 0.604599, 0, -0.604599, 0.79653, 0, 11.0021, 12.6586)
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 13.0021, 15.6586)
 environment = SubResource("Environment_uf7w0")
 projection = 1
 size = 14.333

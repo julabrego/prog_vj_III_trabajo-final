@@ -6,4 +6,5 @@
 albedo_color = Color(0.1092, 0.42, 0.11438, 1)
 albedo_texture = ExtResource("1_2kn17")
 ao_enabled = true
-uv1_scale = Vector3(30, 20, 1)
+uv1_scale = Vector3(37.27, 27.575, 37.27)
+grow_amount = 1.758

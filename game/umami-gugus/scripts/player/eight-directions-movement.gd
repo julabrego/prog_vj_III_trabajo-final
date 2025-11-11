@@ -4,7 +4,8 @@ extends CharacterBody3D
 @export var speed = 14
 # The downward acceleration when in the air, in meters per second squared.
 
-@export var fall_acceleration = 75
+@onready var fall_acceleration := float(ProjectSettings.get_setting("physics/3d/default_gravity"))
+
 # The initial jump velocity (tweak as needed for jump height)
 @export var jump_velocity = 22
 
@@ -63,7 +64,8 @@ func _physics_process(delta):
 			target_velocity.y = jump_velocity
 	else:
 		# If in the air, fall towards the floor. Literally gravity
-		target_velocity.y = target_velocity.y - (fall_acceleration * delta)
+		
+		target_velocity.y -= fall_acceleration * delta
 
 	# Moving the Character
 	velocity = target_velocity

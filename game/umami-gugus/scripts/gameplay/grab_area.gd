@@ -94,6 +94,12 @@ func drop_item() -> void:
 
 	set_item_layer_to_grabbed_collision_layer(grabbing_item, true)
 	
+	# Optional: Apply a small force when dropping
+	if self.grabbing_item is RigidBody3D:
+		var rb = self.grabbing_item
+		var character_speed: Vector3 = parent.velocity
+		rb.apply_central_impulse(character_speed * 2.0)
+	
 	self.grabbing_item = null
 	self.can_grab_item = true
 

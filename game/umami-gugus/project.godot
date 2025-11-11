@@ -41,6 +41,10 @@ action_grab={
 3d_physics/layer_2="GrabbableItem"
 3d_physics/layer_3="GrabbedItem"
 
+[physics]
+
+3d/default_gravity=75.0
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

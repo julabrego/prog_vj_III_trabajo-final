@@ -1,52 +1,37 @@
-[gd_scene load_steps=10 format=3 uid="uid://cd6ga6lpwkq3k"]
+[gd_scene load_steps=8 format=3 uid="uid://cd6ga6lpwkq3k"]
 
 [ext_resource type="Script" path="res://scripts/player/eight-directions-movement.gd" id="1_dpajg"]
+[ext_resource type="PackedScene" uid="uid://buk4yeqyvpn2y" path="res://assets/models/player_model.tscn" id="2_nkh60"]
 [ext_resource type="Script" path="res://scripts/gameplay/grab_area.gd" id="2_obwpr"]
 [ext_resource type="Material" uid="uid://c4xhggtvyr7m2" path="res://assets/materials/yellow_semitransparent.tres" id="3_8v4k5"]
 [ext_resource type="ArrayMesh" uid="uid://djxa3eitl1vi5" path="res://assets/models/shape-cylinder-half.obj" id="3_ps6eh"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xmt6l"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nbojw"]
-albedo_color = Color(0.76, 0.502233, 0.342, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_l43cy"]
-material = SubResource("StandardMaterial3D_nbojw")
-
-[sub_resource type="SphereMesh" id="SphereMesh_4f8ke"]
-radius = 0.15
-height = 0.15
-
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_pwnob"]
 points = PackedVector3Array(0.615209, 1.46931, 0.0365334, -0.625, 0.00375666, -1.23088, -0.621335, 1.5, -1.22377, -0.625, 0.00375666, 1.23088, 0.475345, 0.027922, -0.558413, -0.621335, 1.5, 1.22377, 0.442722, 0.0202105, 0.639778, 0.0286494, 1.48813, -1.05385, 0.0286494, 1.48813, 1.05385, 0.0286494, 0.0199584, -1.05385, 0.442722, 1.48788, -0.639778, -0.0854, 0.0106736, 1.10539, 0.442722, 1.48788, 0.639778, 0.615209, 0.0387732, -0.0365334, -0.0854, 1.49741, -1.10539, 0.442722, 0.0202105, -0.639778, -0.50376, 1.49618, 1.21751, 0.0286494, 0.0199584, 1.05385, -0.50376, 0.0119074, -1.21751, 0.615209, 1.46931, -0.0365334, -0.0854, 1.49741, 1.10539, 0.475345, 0.027922, 0.558413, -0.0854, 0.0106736, -1.10539, -0.50376, 1.49618, -1.21751, 0.615209, 0.0387732, 0.0365334, -0.50376, 0.0119074, 1.21751, 0.475345, 1.48017, 0.558413, 0.475345, 1.48017, -0.558413)
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_mask = 3
+floor_stop_on_slope = false
+floor_block_on_wall = false
 script = ExtResource("1_dpajg")
+
+[node name="PlayerModel" parent="." instance=ExtResource("2_nkh60")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_xmt6l")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_l43cy")
-
-[node name="Ojo1" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.25297, 0.298504, 0.48313)
-mesh = SubResource("SphereMesh_4f8ke")
-
-[node name="Ojo2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.221585, 0.298504, 0.48313)
-mesh = SubResource("SphereMesh_4f8ke")
-
-[node name="Area3D" type="Area3D" parent="."]
+[node name="GrabArea" type="Area3D" parent="."]
+visible = false
 collision_mask = 3
 script = ExtResource("2_obwpr")
 
-[node name="ToolAreaShape" type="MeshInstance3D" parent="Area3D"]
+[node name="HalfCylinderShape" type="MeshInstance3D" parent="GrabArea"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -1, 0.65)
 material_override = ExtResource("3_8v4k5")
 mesh = ExtResource("3_ps6eh")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabArea"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -1, 0.65)
 shape = SubResource("ConvexPolygonShape3D_pwnob")

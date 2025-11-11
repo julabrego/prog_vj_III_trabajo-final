@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://bmiovo384qxg3"]
+
+[ext_resource type="Texture2D" uid="uid://du8itfhvb1vu3" path="res://assets/textures/scenario/square_pattern.png" id="1_lbauk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ikn10"]
+albedo_color = Color(0.542607, 0.411429, 0.169093, 1)
+albedo_texture = ExtResource("1_lbauk")
+ao_enabled = true
+uv1_scale = Vector3(36, 3, 36.9)
+uv1_offset = Vector3(0.065, 0, 0)
+grow_amount = 1.758
+
+[sub_resource type="BoxMesh" id="BoxMesh_rfrrw"]
+material = SubResource("StandardMaterial3D_ikn10")
+size = Vector3(100, 16, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dthbi"]
+size = Vector3(100, 15, 0.5)
+
+[node name="Wall" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 50)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7, 0)
+mesh = SubResource("BoxMesh_rfrrw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 0)
+shape = SubResource("BoxShape3D_dthbi")
