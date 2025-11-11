@@ -4,7 +4,8 @@ extends CharacterBody3D
 @export var speed = 14
 # The downward acceleration when in the air, in meters per second squared.
 
-@export var fall_acceleration = 75
+@onready var fall_acceleration := float(ProjectSettings.get_setting("physics/3d/default_gravity"))
+
 # The initial jump velocity (tweak as needed for jump height)
 @export var jump_velocity = 22
 
@@ -18,13 +19,13 @@ func _physics_process(delta):
 
 	# If some direction input is pressed, its corresponding direction axis 
 	# will be 1 or -1
-	if Input.is_action_pressed("move_right"):
+	if Input.is_action_pressed("ui_right"):
 		direction.x += 1
-	if Input.is_action_pressed("move_left"):
+	if Input.is_action_pressed("ui_left"):
 		direction.x -= 1
-	if Input.is_action_pressed("move_backwards"):
+	if Input.is_action_pressed("ui_down"):
 		direction.z += 1
-	if Input.is_action_pressed("move_forward"):
+	if Input.is_action_pressed("ui_up"):
 		direction.z -= 1
 	
 	# The speed has to be normalized so if the player moves in two directions
@@ -59,11 +60,12 @@ func _physics_process(delta):
 
 	# Jumping
 	if is_on_floor():
-		if Input.is_action_just_pressed("action_confirm"):
+		if Input.is_action_just_pressed("action_jump"):
 			target_velocity.y = jump_velocity
 	else:
 		# If in the air, fall towards the floor. Literally gravity
-		target_velocity.y = target_velocity.y - (fall_acceleration * delta)
+		
+		target_velocity.y -= fall_acceleration * delta
 
 	# Moving the Character
 	velocity = target_velocity

@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://buk4yeqyvpn2y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nbojw"]
+albedo_color = Color(0.76, 0.502233, 0.342, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_l43cy"]
+material = SubResource("StandardMaterial3D_nbojw")
+
+[sub_resource type="SphereMesh" id="SphereMesh_4f8ke"]
+radius = 0.15
+height = 0.15
+
+[node name="PlayerModel" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_l43cy")
+skeleton = NodePath("../..")
+
+[node name="Ojo1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.25297, 0.298504, 0.48313)
+mesh = SubResource("SphereMesh_4f8ke")
+skeleton = NodePath("../..")
+
+[node name="Ojo2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.221585, 0.298504, 0.48313)
+mesh = SubResource("SphereMesh_4f8ke")
+skeleton = NodePath("../..")
